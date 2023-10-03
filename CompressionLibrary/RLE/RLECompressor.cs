@@ -29,13 +29,14 @@ namespace CompressionLibrary.RLE
                 //If EOF exit
                 if (eof) break;
 
+                //If the buffer is empty add byte to buffer
                 if (sequence.Count == 0)
                 {
                     sequence.Add((byte)current);
                     continue;
                 }
 
-
+                //If the buffer contains 1 byte check what group is it
                 if (sequence.Count == 1)
                 {
                     different = current != sequence.Last();
@@ -43,7 +44,7 @@ namespace CompressionLibrary.RLE
                     continue;
                 }
                 
-
+                //If the buffer is full write run to the file
                 if(sequence.Count == 128)
                 {
                     //Write bytes to the file
@@ -57,7 +58,8 @@ namespace CompressionLibrary.RLE
                     continue;
                 }
 
-                if(sequence.Last() == current && different)
+                //If the last byte of the buffer is equal to current byte and the group is non-homogenous, then write down the group, except for the last byte
+                if (sequence.Last() == current && different)
                 {
                     OutputFile.WriteByte((sequence.Count - 1).RLEFlaggedByte(different));
                     //Write all **different** bytes
@@ -65,7 +67,9 @@ namespace CompressionLibrary.RLE
                     different = false;
                     sequence = new List<byte> { (byte)current };
  
-                } else if (sequence.Last() != current && !different){
+                }
+                //If the last byte of the buffer is different from current byte and the group is homogenous, then write down the group and clear it
+                else if (sequence.Last() != current && !different){
                     OutputFile.WriteByte(sequence.Count.RLEFlaggedByte(different));
                     OutputFile.WriteByte(sequence.First());
                     sequence.Clear();
@@ -75,7 +79,7 @@ namespace CompressionLibrary.RLE
 
             }
 
-            //Write bytes to the file
+            //Write bytes to the file after file was read
             OutputFile.WriteByte(sequence.Count.RLEFlaggedByte(different));
             if (different) sequence.ForEach(x => OutputFile.WriteByte(x));
             else OutputFile.WriteByte(sequence.First());

@@ -16,6 +16,7 @@ namespace CompressionLibrary.RLE
 
             bool is_different = false;
 
+            //Write data to decompressed file
             void WriteFiles()
             {
                 if (is_different) OutputFile.Write(data, 0, readed);
@@ -28,15 +29,20 @@ namespace CompressionLibrary.RLE
 
             while (true)
             {
+                //Try to read current byte
                 count = InputFile.ReadByte();
                 if (count < 0) break;
+                //Determine what run is it
                 is_different = count < RLEConstants.RLE_FLAG;
-
+                //Read the run
                 readed = InputFile.Read(data, 0, is_different ? count.RLECount() : 1);
+                //Determine the EOF
                 if ((!is_different && readed != 1) || (is_different && readed != count.RLECount())) break;
 
+                //Write decompressed data
                 WriteFiles();
             }
+            //Write remaining decompressed data if there are any
             if (count > 0)
             {
                 WriteFiles();

@@ -35,18 +35,24 @@ namespace CompressionLibrary
         /// <param name="OutputFile">Result of compression/decompression</param>
         public void Use(string InputFile, string OutputFile)
         {
+            //Start to read file
             var input = File.OpenRead(InputFile);
             var output = File.OpenWrite(OutputFile);
 
             var timer = new Stopwatch();
 
+            //Start time before the algorithm
             timer.Start();
+            //Template-method containing current algorithm
             Algorithm(input, output);
+            //Stop timer
             timer.Stop();
 
+            //Stop reading files
             input.Close();
             output.Close();
 
+            //Collect statistic
             var inputInfo = new FileInfo(InputFile);
             var outputInfo = new FileInfo(OutputFile);
 

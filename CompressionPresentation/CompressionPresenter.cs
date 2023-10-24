@@ -10,48 +10,66 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 using CompressionLibrary;
-using CompressionLibrary.RLEI;
 
-
-namespace Lab_01I
+namespace Lab_01
 {
-    public partial class Lab_01I : Form
+    public partial class CompressionPresenter : Form
     {
         // Function to check if a file has a rle extension
-        static bool IsRLEFile(string filePath)
+        bool IsRLEFile(string filePath)
         {
             string extension = System.IO.Path.GetExtension(filePath);
-            return !string.IsNullOrEmpty(extension) && extension.Equals(".rlei", StringComparison.OrdinalIgnoreCase);
+            return !string.IsNullOrEmpty(extension) && extension.Equals($"{Extension}", StringComparison.OrdinalIgnoreCase);
         }
 
-        public Lab_01I()
+        public CompressionPresenter()
         {
             InitializeComponent();
             Graphics = CreateGraphics();
+
+            comboBox1.Items.Add(
+                new DataCompressionModel { 
+                    Compression = new RLECompression(),
+                    MethodName = "RLE",
+                    Extension = ".rle"
+                }
+            );
+            comboBox1.Items.Add(
+                new DataCompressionModel { 
+                    Compression = new RLEICompression(),
+                    MethodName = "RLEI",
+                    Extension = ".rlei"
+                }
+            );
+
+            comboBox1.SelectedIndex = 0;
+            ClearButton_Click(null, null);
         }
+        DataCompressionModel CurrentModel => (DataCompressionModel)comboBox1.SelectedItem;
+        DataCompression Compression => CurrentModel.Compression;
+        string Extension => CurrentModel.Extension;
+
         Graphics Graphics { get; set; }
         Bitmap Bitmap { get; set; }
         string InputFile { get; set; }
-        FileCompressor Compressor = new RLEICompressor();
-        FileCompressor Decompressor = new RLEIDecompressor();
 
         private string ShortFileName => ShortFileNameOf(InputFile);
         private string ShortFileNameOf(string file) => file.Substring(InputFile.LastIndexOf('\\') + 1);
 
         private void Compress_Click(object sender, EventArgs e)
         {
-            var dialog = new SaveFileDialog();
-            dialog.Filter = "Compressed files (*.rlei)|*.rlei";
+            var dialog = new SaveFileDialog(); 
+            dialog.Filter = $"Compressed files (*{Extension})|*{Extension}";
             if (dialog.ShowDialog() == DialogResult.OK)
             {
-                Compressor.Use(InputFile, dialog.FileName);
+                Compression.Compress(InputFile, dialog.FileName);
                 textBox1.Text += $@"
 Filename = {ShortFileName}
 Compressing to = {ShortFileNameOf(dialog.FileName)}
-Initial (bytes) = {Compressor.InitialSize}
-Output (bytes) = {Compressor.ResultedSize}
-Compression coefficient = {Compressor.CompressionCoefficient,2:F4}
-Compression time = {Compressor.CompressionDuration.ToString()}
+Initial (bytes) = {Compression.Compressor.InitialSize}
+Output (bytes) = {Compression.Compressor.ResultedSize}
+Compression coefficient = {Compression.Compressor.CompressionCoefficient,2:F4}
+Compression time = {Compression.Compressor.CompressionDuration.ToString()}
 ============================";
             }
         }
@@ -62,19 +80,19 @@ Compression time = {Compressor.CompressionDuration.ToString()}
             dialog.Filter = "Files to save (*.*)|*.*";
             if (dialog.ShowDialog() == DialogResult.OK)
             {
-                if (IsRLEFile(dialog.FileName))
+                if(IsRLEFile(dialog.FileName))
                 {
-                    MessageBox.Show("File cannot be of the type .rlei");
+                    MessageBox.Show("File cannot be of the type .rle");
                     return;
                 }
-                Decompressor.Use(InputFile, dialog.FileName);
+                Compression.Decompress(InputFile, dialog.FileName);
                 textBox1.Text += $@"
 Filename = {ShortFileName}
 Decompressing to = {ShortFileNameOf(dialog.FileName)}
-Initial (bytes) = {Decompressor.InitialSize}
-Output (bytes) = {Decompressor.ResultedSize}
-Decompression coefficient = {Decompressor.CompressionCoefficient,2:F4}
-Decompression time = {Decompressor.CompressionDuration.ToString()}
+Initial (bytes) = {Compression.Decompressor.InitialSize}
+Output (bytes) = {Compression.Decompressor.ResultedSize}
+Decompression coefficient = {Compression.Decompressor.CompressionCoefficient,2:F4}
+Decompression time = {Compression.Decompressor.CompressionDuration.ToString()}
 ============================";
                 Graphics.Clear(BackColor);
                 if (Bitmap != null)
@@ -91,7 +109,7 @@ Decompression time = {Decompressor.CompressionDuration.ToString()}
         private void Form1_Click(object sender, EventArgs e)
         {
             var dialog = new OpenFileDialog();
-            dialog.Filter = "Files to compress (*.*)|*.*|Compressed files (*.rlei)|*.rlei";
+            dialog.Filter = $"Files to compress (*.*)|*.*|Compressed files (*{Extension})|*{Extension}";
             if (dialog.ShowDialog() == DialogResult.OK)
             {
                 Graphics.Clear(BackColor);
@@ -115,7 +133,7 @@ Decompression time = {Decompressor.CompressionDuration.ToString()}
                     Compress.Enabled = true;
                     Decompress.Enabled = false;
                 }
-                textBox1.Text +=
+                textBox1.Text += 
 $@"
 File {ShortFileName} opened
 ============================
@@ -125,7 +143,33 @@ File {ShortFileName} opened
 
         private void Form1_Paint(object sender, PaintEventArgs e)
         {
-            if (Bitmap != null && (Width >= Bitmap.Width || Height >= Bitmap.Height)) Graphics.DrawImage(Bitmap, 0, 0, Bitmap.Width, Bitmap.Height);
+            if(Bitmap != null && (Width >= Bitmap.Width || Height >= Bitmap.Height) ) Graphics.DrawImage(Bitmap, 0, 0, Bitmap.Width, Bitmap.Height);
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            textBox1.Text +=
+$@"
+Method changed to {CurrentModel.MethodName}
+============================
+";
+        }
+
+        private void ClearButton_Click(object sender, EventArgs e)
+        {
+            textBox1.Text = "";
+        }
+
+        private void GoUp_Click(object sender, EventArgs e)
+        {
+            textBox1.Select(0, 0);
+            textBox1.ScrollToCaret();
+        }
+
+        private void GoDown_Click(object sender, EventArgs e)
+        {
+            textBox1.Select(textBox1.Text.Length, textBox1.Text.Length);
+            textBox1.ScrollToCaret();
         }
     }
 }

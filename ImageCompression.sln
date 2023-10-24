@@ -7,9 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompressionLibrary", "Compr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CompressionLibraryTesting", "CompressionLibraryTesting\CompressionLibraryTesting.csproj", "{44760272-CC9A-4F03-8BA3-645EC4AE1338}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lab_01", "Lab_01\Lab_01.csproj", "{6ADCCDA3-FD1A-40F6-BB64-80FAB730667B}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lab_01I", "Lab_01I\Lab_01I.csproj", "{75CE82C0-AF78-4ADC-A0B1-79F58D4860E3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PresentCompression", "CompressionPresentation\PresentCompression.csproj", "{6ADCCDA3-FD1A-40F6-BB64-80FAB730667B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,10 +27,6 @@ Global
 		{6ADCCDA3-FD1A-40F6-BB64-80FAB730667B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6ADCCDA3-FD1A-40F6-BB64-80FAB730667B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6ADCCDA3-FD1A-40F6-BB64-80FAB730667B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{75CE82C0-AF78-4ADC-A0B1-79F58D4860E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{75CE82C0-AF78-4ADC-A0B1-79F58D4860E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{75CE82C0-AF78-4ADC-A0B1-79F58D4860E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{75CE82C0-AF78-4ADC-A0B1-79F58D4860E3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

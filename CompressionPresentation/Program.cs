@@ -16,7 +16,7 @@ namespace Lab_01
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Lab_01());
+            Application.Run(new CompressionPresenter());
         }
     }
 }

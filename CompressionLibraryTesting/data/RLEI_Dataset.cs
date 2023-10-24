@@ -6,12 +6,9 @@ using System.Threading.Tasks;
 
 namespace CompressionLibraryTesting
 {
-    internal class RLEIData
+    internal class RLEI_Dataset : Dataset
     {
-        public byte[] Data { get; set; }
-        public byte[] ResultData { get; set; }
-
-        public static RLEIData Data_1 => new RLEIData {
+        public static RLEI_Dataset Data_1 => new RLEI_Dataset {
             Data = new byte[]
             {
                 0, 0, 0,
@@ -21,7 +18,7 @@ namespace CompressionLibraryTesting
                 128, 0, 0, 0,
             }
         };
-        public static RLEIData Data_2 => new RLEIData {
+        public static RLEI_Dataset Data_2 => new RLEI_Dataset {
             Data = new byte[]
             {
                 1, 2, 3,
@@ -31,7 +28,7 @@ namespace CompressionLibraryTesting
                128, 1, 2, 3
             }
         }; 
-        public static RLEIData Data_3 => new RLEIData {
+        public static RLEI_Dataset Data_3 => new RLEI_Dataset {
             Data = new byte[]
             {
                 1, 2, 
@@ -41,7 +38,7 @@ namespace CompressionLibraryTesting
                128, 1, 2
             }
         };
-        public static RLEIData Data_4 => new RLEIData {
+        public static RLEI_Dataset Data_4 => new RLEI_Dataset {
             Data = new byte[]
             {
                 1,
@@ -51,7 +48,7 @@ namespace CompressionLibraryTesting
                128, 1
             }
         };
-        public static RLEIData Data_5 => new RLEIData
+        public static RLEI_Dataset Data_5 => new RLEI_Dataset
         {
             Data = new byte[]
             {
@@ -65,7 +62,7 @@ namespace CompressionLibraryTesting
                131, 1, 2, 3,
             }
         }; 
-        public static RLEIData Data_6 => new RLEIData
+        public static RLEI_Dataset Data_6 => new RLEI_Dataset
         {
             Data = new byte[]
             {
@@ -88,7 +85,7 @@ namespace CompressionLibraryTesting
                 0, 1, 1,
             }
         };
-        public static RLEIData Data_7 => new RLEIData
+        public static RLEI_Dataset Data_7 => new RLEI_Dataset
         {
             Data = new byte[]
             {
@@ -112,7 +109,7 @@ namespace CompressionLibraryTesting
             }
         };
 
-        public static RLEIData Data_8 => new RLEIData
+        public static RLEI_Dataset Data_8 => new RLEI_Dataset
         {
             Data = new byte[385],
             ResultData = new byte[]
@@ -120,7 +117,7 @@ namespace CompressionLibraryTesting
                 255, 0, 0, 0, 128, 0
             }
         };
-        public static RLEIData Data_9 => new RLEIData
+        public static RLEI_Dataset Data_9 => new RLEI_Dataset
         {
             Data = new byte[385]
                    .Select((x, i) => (byte)(i % 6))
@@ -133,7 +130,7 @@ namespace CompressionLibraryTesting
                 )
             .Concat(new byte[] { 128, 0 }).ToArray()
         };
-        public static RLEIData Data_10 => new RLEIData
+        public static RLEI_Dataset Data_10 => new RLEI_Dataset
         {
             Data = new byte[385]
                   .Concat(

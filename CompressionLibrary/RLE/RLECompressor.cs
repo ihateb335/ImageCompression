@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace CompressionLibrary.RLE
 {
     
-    public class RLECompressor : FileCompressor
+    public class RLECompressor : DataCompressor
     {
         protected override void Algorithm(FileStream InputFile, FileStream OutputFile)
         {

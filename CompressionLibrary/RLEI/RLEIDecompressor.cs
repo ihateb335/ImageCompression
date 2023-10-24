@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CompressionLibrary.RLEI
 {
-    public class RLEIDecompressor : FileCompressor
+    public class RLEIDecompressor : DataCompressor
     {
         public int N { get; private set; }
         public RLEIDecompressor(int N = 3) : base()

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace CompressionLibrary
 {
-    public abstract class FileCompressor
+    public abstract class DataCompressor
     {
         /// <summary>
         /// Initial file size in bytes
@@ -47,6 +47,8 @@ namespace CompressionLibrary
             Algorithm(input, output);
             //Stop timer
             timer.Stop();
+
+            output.Flush();
 
             //Stop reading files
             input.Close();

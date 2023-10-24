@@ -10,7 +10,7 @@ namespace CompressionLibrary.RLE
     
     public class RLECompressor : DataCompressor
     {
-        protected override void Algorithm(FileStream InputFile, FileStream OutputFile)
+        protected override void Algorithm(Stream InputFile, Stream OutputFile)
         {
             //Bytes A
             int current = 0;

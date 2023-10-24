@@ -22,7 +22,7 @@ namespace CompressionLibrary.RLEI
             for (int i = 0; i < N; i++) _data[i] = -1;
         }
 
-        public void ReadByte(FileStream fileStream)
+        public void ReadByte(Stream fileStream)
         {
             for (int i = 0; i < N; i++)
             {
@@ -30,7 +30,7 @@ namespace CompressionLibrary.RLEI
             }
         }
 
-        public void WriteByte(FileStream fileStream)
+        public void WriteByte(Stream fileStream)
         {
             for (int i = 0; i < N; i++)
             {
@@ -55,13 +55,13 @@ namespace CompressionLibrary.RLEI
 
     public static class RLEIExtensions
     {
-        public static RLEIByte ReadRLEIByte(this FileStream fileStream, int n = 3)
+        public static RLEIByte ReadRLEIByte(this Stream fileStream, int n = 3)
         {
             var rleIByte = new RLEIByte(n);
             rleIByte.ReadByte(fileStream);
             return rleIByte;
         }
-        public static void WriteRLEIByte(this FileStream fileStream, RLEIByte @byte)
+        public static void WriteRLEIByte(this Stream fileStream, RLEIByte @byte)
         {
             @byte.WriteByte(fileStream);
         }

@@ -15,7 +15,7 @@ namespace CompressionLibrary.RLEI
             this.N = N;
         }
 
-        protected override void Algorithm(FileStream InputFile, FileStream OutputFile)
+        protected override void Algorithm(Stream InputFile, Stream OutputFile)
         {
             //Bytes A
             RLEIByte current;

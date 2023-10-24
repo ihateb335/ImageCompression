@@ -62,8 +62,9 @@
     <Compile Include="ByteStringExtensions.cs" />
     <Compile Include="DataCompression.cs" />
     <Compile Include="DataCompressor.cs" />
-    <Compile Include="FileStreamExtensions.cs" />
+    <Compile Include="StreamExtensions.cs" />
     <Compile Include="LZW\CodeTable.cs" />
+    <Compile Include="LZW\LZWDecompressor.cs" />
     <Compile Include="LZW\ReadCodeTable.cs" />
     <Compile Include="LZW\WriteCodeTable.cs" />
     <Compile Include="LZW\LZWCompressor.cs" />

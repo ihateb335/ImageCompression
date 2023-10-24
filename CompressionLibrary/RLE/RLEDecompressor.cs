@@ -9,7 +9,7 @@ namespace CompressionLibrary.RLE
 {
     public class RLEDecompressor : DataCompressor
     {
-        protected override void Algorithm(FileStream InputFile, FileStream OutputFile)
+        protected override void Algorithm(Stream InputFile, Stream OutputFile)
         {
             byte[] data = new byte[128], write_data;
             int count = 0, readed = 0;

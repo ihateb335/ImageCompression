@@ -39,29 +39,31 @@ namespace CompressionLibrary
             var input = File.OpenRead(InputFile);
             var output = File.OpenWrite(OutputFile);
 
+            Use(input, output);
+
+            //Stop reading files
+            input.Close();
+            output.Close();
+        }
+
+        public void Use(Stream Input, Stream Output)
+        {
             var timer = new Stopwatch();
 
             //Start time before the algorithm
             timer.Start();
             //Template-method containing current algorithm
-            Algorithm(input, output);
+            Algorithm(Input, Output);
             //Stop timer
             timer.Stop();
 
-            output.Flush();
+            Output.Flush();
 
-            //Stop reading files
-            input.Close();
-            output.Close();
-
-            //Collect statistic
-            var inputInfo = new FileInfo(InputFile);
-            var outputInfo = new FileInfo(OutputFile);
-
+            //Collect statistics
             CompressionDuration = timer.Elapsed;
-            InitialSize = inputInfo.Length;
-            ResultedSize = outputInfo.Length;
+            InitialSize = Input.Length;
+            ResultedSize = Output.Length;
         }
-        protected abstract void Algorithm(FileStream InputFile, FileStream OutputFile );
+        protected abstract void Algorithm(Stream InputFile, Stream OutputFile );
     }
 }

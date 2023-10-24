@@ -50,6 +50,10 @@ namespace CompressionLibraryTesting
             TestCompressor(LZW_Dataset.Data_2, "0 1 Should be encoded as 0 and 1");
             TestCompressor(LZW_Dataset.Data_3, "0 1 0 1 Should be encoded as 0 1 258");
             TestCompressor(LZW_Dataset.Data_4, "0, 1, 0, 1, 0, 1 Should be encoded as 0 1 258 258");
+        }
+        [Test]
+        public void LZWLimitedTesting()
+        {
             Limit = 259;
             TestCompressor(LZW_Dataset.Data_5, "Limit overflow should use some clear codes");
         }

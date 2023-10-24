@@ -363,4 +363,4 @@ MigrationBackup/
 FodyWeavers.xsd
 
 # Program of CompressionLibraryTesting
-CompressionLibraryTesting/*/Program.cs
+CompressionLibraryTesting/Program.cs

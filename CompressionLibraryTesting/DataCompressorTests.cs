@@ -9,24 +9,24 @@ namespace CompressionLibraryTesting
 {
     public abstract class DataCompressorTests
     {
-        public string InputFile = "test_data.bin";
-        public string OnputFile = "test_data_output.bin";
-
         protected Action<IEnumerable<byte>, IEnumerable<byte>, IEnumerable<byte>> DebugAction = (input, output, result) => { };
         protected void TestCompressor(IEnumerable<byte> input_data, IEnumerable<byte> output_data, DataCompressor Compressor, string message)
         {
-            File.Delete(InputFile);
-            File.Delete(OnputFile);
+            var InputStream = new MemoryStream();
+            var OutputStream = new MemoryStream();
 
-            var inputFile = File.Create(InputFile);
             var InputData = input_data.ToArray();
 
-            inputFile.Write(InputData, 0, InputData.Length);
-            inputFile.Close();
 
-            Compressor.Use(InputFile, OnputFile);
+            InputStream.Write(InputData, 0, InputData.Length);
+            InputStream.Seek(0, SeekOrigin.Begin);
 
-            var result = File.ReadAllBytes(OnputFile);
+            Compressor.Use(InputStream, OutputStream);
+
+            var result = OutputStream.ToArray();
+
+            InputStream.Close();
+            OutputStream.Close();
 
             if (DebugAction != null) DebugAction.Invoke(input_data, output_data, result);
 

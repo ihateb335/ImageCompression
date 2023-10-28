@@ -4,9 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using CompressionLibrary.RLEI;
-
-namespace CompressionLibrary
+namespace CompressionLibrary.RLEI
 {
     public class RLEICompression : DataCompression
     {

@@ -59,9 +59,10 @@
   <ItemGroup>
     <Compile Include="BitOperations\BitReader.cs" />
     <Compile Include="BitOperations\BitWriter.cs" />
-    <Compile Include="ByteStringExtensions.cs" />
+    <Compile Include="LZW\ByteStringExtensions.cs" />
     <Compile Include="DataCompression.cs" />
     <Compile Include="DataCompressor.cs" />
+    <Compile Include="LZW\LZWCompression.cs" />
     <Compile Include="StreamExtensions.cs" />
     <Compile Include="LZW\CodeTable.cs" />
     <Compile Include="LZW\LZWDecompressor.cs" />
@@ -69,11 +70,11 @@
     <Compile Include="LZW\WriteCodeTable.cs" />
     <Compile Include="LZW\LZWCompressor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RLECompression.cs" />
-    <Compile Include="RLEICompression.cs" />
+    <Compile Include="RLE\RLECompression.cs" />
+    <Compile Include="RLEI\RLEICompression.cs" />
     <Compile Include="RLEI\RLEIDecompressor.cs" />
     <Compile Include="RLE\RLECompressor.cs" />
-    <Compile Include="RLEConstants.cs" />
+    <Compile Include="RLE\RLEConstants.cs" />
     <Compile Include="RLE\RLEDecompressor.cs" />
     <Compile Include="RLEI\RLEIByte.cs" />
     <Compile Include="RLEI\RLEICompressor.cs" />

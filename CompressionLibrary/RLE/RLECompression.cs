@@ -4,9 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using CompressionLibrary.RLE;
-
-namespace CompressionLibrary
+namespace CompressionLibrary.RLE
 {
     public class RLECompression : DataCompression
     {

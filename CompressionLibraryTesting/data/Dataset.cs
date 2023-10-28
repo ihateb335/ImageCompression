@@ -8,7 +8,10 @@ namespace CompressionLibraryTesting
 {
     public class Dataset
     {
-        public IEnumerable<byte> Data { get; set; }
-        public IEnumerable<byte> ResultData { get; set; }
+        public virtual IEnumerable<byte> Data => RawData;
+        public virtual IEnumerable<byte> ResultData => RawResultData;
+
+        public IEnumerable<byte> RawData { get; set; }
+        public IEnumerable<byte> RawResultData { get; set; }
     }
 }

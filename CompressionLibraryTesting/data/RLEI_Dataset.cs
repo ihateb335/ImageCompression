@@ -9,62 +9,62 @@ namespace CompressionLibraryTesting
     internal class RLEI_Dataset : Dataset
     {
         public static RLEI_Dataset Data_1 => new RLEI_Dataset {
-            Data = new byte[]
+            RawData = new byte[]
             {
                 0, 0, 0,
             },
-            ResultData = new byte[]
+            RawResultData = new byte[]
             {
                 128, 0, 0, 0,
             }
         };
         public static RLEI_Dataset Data_2 => new RLEI_Dataset {
-            Data = new byte[]
+            RawData = new byte[]
             {
                 1, 2, 3,
             },
-            ResultData = new byte[]
+            RawResultData = new byte[]
             {
                128, 1, 2, 3
             }
         }; 
         public static RLEI_Dataset Data_3 => new RLEI_Dataset {
-            Data = new byte[]
+            RawData = new byte[]
             {
                 1, 2, 
             },
-            ResultData = new byte[]
+            RawResultData = new byte[]
             {
                128, 1, 2
             }
         };
         public static RLEI_Dataset Data_4 => new RLEI_Dataset {
-            Data = new byte[]
+            RawData = new byte[]
             {
                 1,
             },
-            ResultData = new byte[]
+            RawResultData = new byte[]
             {
                128, 1
             }
         };
         public static RLEI_Dataset Data_5 => new RLEI_Dataset
         {
-            Data = new byte[]
+            RawData = new byte[]
             {
                 1, 2, 3,
                 1, 2, 3,
                 1, 2, 3,
                 1, 2, 3,
             },
-            ResultData = new byte[]
+            RawResultData = new byte[]
             {
                131, 1, 2, 3,
             }
         }; 
         public static RLEI_Dataset Data_6 => new RLEI_Dataset
         {
-            Data = new byte[]
+            RawData = new byte[]
             {
                 1, 2, 3,
                 1, 2, 3,
@@ -74,7 +74,7 @@ namespace CompressionLibraryTesting
                 0, 1, 0,
                 0, 1, 1,
             },
-            ResultData = new byte[]
+            RawResultData = new byte[]
             {
                 130,
                 1, 2, 3, 
@@ -87,7 +87,7 @@ namespace CompressionLibraryTesting
         };
         public static RLEI_Dataset Data_7 => new RLEI_Dataset
         {
-            Data = new byte[]
+            RawData = new byte[]
             {
                 0, 0, 0,
                 0, 0, 1,
@@ -97,7 +97,7 @@ namespace CompressionLibraryTesting
                 1, 2, 3,
                 1, 2, 3,
             },
-            ResultData = new byte[]
+            RawResultData = new byte[]
             {
                 3,
                 0, 0, 0,
@@ -111,18 +111,18 @@ namespace CompressionLibraryTesting
 
         public static RLEI_Dataset Data_8 => new RLEI_Dataset
         {
-            Data = new byte[385],
-            ResultData = new byte[]
+            RawData = new byte[385],
+            RawResultData = new byte[]
             {
                 255, 0, 0, 0, 128, 0
             }
         };
         public static RLEI_Dataset Data_9 => new RLEI_Dataset
         {
-            Data = new byte[385]
+            RawData = new byte[385]
                    .Select((x, i) => (byte)(i % 6))
                    .ToArray(),
-            ResultData = 
+            RawResultData = 
             new byte[]{ 127,}
             .Concat(
                 new byte[384]
@@ -132,7 +132,7 @@ namespace CompressionLibraryTesting
         };
         public static RLEI_Dataset Data_10 => new RLEI_Dataset
         {
-            Data = new byte[385]
+            RawData = new byte[385]
                   .Concat(
                         new byte[] { 1, 2 }
                         .Concat(
@@ -141,7 +141,7 @@ namespace CompressionLibraryTesting
                         )
                   )
                   .ToArray(),
-           ResultData =
+           RawResultData =
            new byte[] { 255, 0, 0, 0, 127 }
            .Concat(
                new byte[384]

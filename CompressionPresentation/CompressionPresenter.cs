@@ -10,6 +10,9 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 using CompressionLibrary;
+using CompressionLibrary.RLE;
+using CompressionLibrary.RLEI;
+using CompressionLibrary.LZW;
 
 namespace Lab_01
 {
@@ -18,7 +21,7 @@ namespace Lab_01
         // Function to check if a file has a rle extension
         bool IsRLEFile(string filePath)
         {
-            string extension = System.IO.Path.GetExtension(filePath);
+            string extension = Path.GetExtension(filePath);
             return !string.IsNullOrEmpty(extension) && extension.Equals($"{Extension}", StringComparison.OrdinalIgnoreCase);
         }
 
@@ -41,8 +44,15 @@ namespace Lab_01
                     Extension = ".rlei"
                 }
             );
-
-            comboBox1.SelectedIndex = 0;
+            comboBox1.Items.Add(
+                new DataCompressionModel { 
+                    Compression = new LZWCompression(4093),
+                    MethodName = "LZW",
+                    Extension = ".lzw"
+                }
+            );
+           
+            comboBox1.SelectedIndex = 2;
             ClearButton_Click(null, null);
         }
         DataCompressionModel CurrentModel => (DataCompressionModel)comboBox1.SelectedItem;
@@ -76,13 +86,16 @@ Compression time = {Compression.Compressor.CompressionDuration.ToString()}
 
         private void Decompress_Click(object sender, EventArgs e)
         {
+            var inputExtension = Path.GetExtension(InputFile);
+            if (inputExtension != Extension && HasExtension(inputExtension) ) { MessageBox.Show($"File must be {Extension}, change the compression method"); return; }
+
             var dialog = new SaveFileDialog();
             dialog.Filter = "Files to save (*.*)|*.*";
             if (dialog.ShowDialog() == DialogResult.OK)
             {
                 if(IsRLEFile(dialog.FileName))
                 {
-                    MessageBox.Show("File cannot be of the type .rle");
+                    MessageBox.Show($"File cannot be of the type {Path.GetExtension(dialog.FileName)}");
                     return;
                 }
                 Compression.Decompress(InputFile, dialog.FileName);
@@ -120,10 +133,18 @@ Decompression time = {Compression.Decompressor.CompressionDuration.ToString()}
                 }
 
                 InputFile = dialog.FileName;
+
+               
+
                 if (IsRLEFile(dialog.FileName))
                 {
                     Decompress.Enabled = true;
                     Compress.Enabled = false;
+                }
+                else if (HasExtension(Path.GetExtension(dialog.FileName)))
+                {
+                    MessageBox.Show($"File cannot be of the type {Path.GetExtension(dialog.FileName)}");
+                    return;
                 }
                 else
                 {
@@ -171,5 +192,7 @@ Method changed to {CurrentModel.MethodName}
             textBox1.Select(textBox1.Text.Length, textBox1.Text.Length);
             textBox1.ScrollToCaret();
         }
+
+        public bool HasExtension(string extension) => comboBox1.Items.Cast<DataCompressionModel>().Select(x => x.Extension).Any((x) => x == extension);
     }
 }

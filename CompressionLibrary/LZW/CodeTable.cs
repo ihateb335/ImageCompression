@@ -25,6 +25,7 @@ namespace CompressionLibrary.LZW
         public ushort Limit { get; set; } = 65535;
 
         public virtual int Count { get; }
+        public virtual int BitCount => Convert.ToString(Count + 2, 2).Length;
 
         /// <summary>
         /// Add string to the table

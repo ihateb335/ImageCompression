@@ -11,6 +11,7 @@ namespace CompressionLibrary.LZW
     {
         Dictionary<ushort, ByteString> Table = new Dictionary<ushort, ByteString>();
         public override int Count => Table.Count;
+        public override int BitCount => Convert.ToString(Count + 3, 2).Length;
 
         public ReadCodeTable() : base() { }
 

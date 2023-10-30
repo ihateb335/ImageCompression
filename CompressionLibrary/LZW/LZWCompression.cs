@@ -9,7 +9,8 @@ namespace CompressionLibrary.LZW
     public class LZWCompression : DataCompression
     {
 
-        public LZWCompression(ushort Limit = 65535) : base(new LZWCompressor(Limit), new LZWDecompressor(Limit))
+        public LZWCompression(ushort Limit = 65535, bool enableCompression = true) : 
+            base(new LZWCompressor(Limit, enableCompression), new LZWDecompressor(Limit, enableCompression))
         {
            
         }

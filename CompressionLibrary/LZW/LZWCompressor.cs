@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -7,20 +8,40 @@ using System.Threading.Tasks;
 
 using Google.Protobuf;
 
+using CompressionLibrary.BitOperations;
+using BinaryBitLib;
+
 namespace CompressionLibrary.LZW
 {
+    using CurrentBitWriter = BitWriter;
     public class LZWCompressor : DataCompressor
     {
         private WriteCodeTable Table;
-        public LZWCompressor(ushort limit = 65535): base()
+        public LZWCompressor(ushort limit = 65535, bool enableCompression = false): base()
         {
             Table = new WriteCodeTable();
             Table.Limit = limit;
+            EnableCompression = enableCompression;
         }
+
+        bool EnableCompression;
+
+        CurrentBitWriter bitOutputFile;
+        BinaryWriter OutputFile;
+        private void WriteToFile(ushort code)
+        {
+            if(EnableCompression) 
+                bitOutputFile.Write16(code, Table.BitCount );
+            else OutputFile.Write(code);
+        }
+
         protected override void Algorithm(Stream InputFile, Stream OutputFile)
         {
             Table.InitTable();
-            OutputFile.WriteUShort(CodeTable.ClearCode);
+            this.OutputFile = new BinaryWriter(OutputFile);
+            bitOutputFile = new CurrentBitWriter(OutputFile);
+
+            WriteToFile(CodeTable.ClearCode);
             ByteString CurString = ByteString.Empty, temp = ByteString.Empty;
 
             //Readed Bytes A
@@ -46,7 +67,7 @@ namespace CompressionLibrary.LZW
                 else
                 {
                     //Write current string
-                    OutputFile.WriteUShort(Table[CurString]);
+                   WriteToFile(Table[CurString]);
                     //Add string to table
                     Table.AddString(temp);
 
@@ -56,17 +77,17 @@ namespace CompressionLibrary.LZW
                     if (Table.Count == Table.Limit)
                     {
                         //Write last encoded string
-                        OutputFile.WriteUShort(Table[CurString]);
+                       WriteToFile(Table[CurString]);
                         //Write clear code
-                        OutputFile.WriteUShort(CodeTable.ClearCode);
+                       WriteToFile(CodeTable.ClearCode);
                         Table.InitTable();
                         CurString = ByteString.Empty;
                     }
                 }
             };
-            if(CurString != ByteString.Empty) OutputFile.WriteUShort(Table[CurString]);
-            OutputFile.WriteUShort(CodeTable.EndOfInformation);
-
+            if(CurString != ByteString.Empty)WriteToFile(Table[CurString]);
+            WriteToFile(CodeTable.EndOfInformation);
+            bitOutputFile.Flush();
 
         }
     }

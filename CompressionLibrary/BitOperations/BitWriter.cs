@@ -28,17 +28,17 @@ namespace CompressionLibrary.BitOperations
             base.Flush();
         }
 
-        public void Write(byte value, int bits = 8)
+        public void Write8(byte value, int bits = 8)
         {
             if (bits == 0 || bits > 8) throw new ArgumentOutOfRangeException("Bit count cannot equal to 0 or be greater than 8");
            
             //Offset to move bits
             var offset = 8 - bitCount - bits;
-            offset = offset <= 0 ? 0 : offset;
             //Value to write should be right after bufferized value
-            var a = (value >> Math.Max(8 - bits, bitCount) ) << offset;
+            byte tmp = (byte)((byte)(value << (8 - bits)) >> (8 - bits)) ;
 
-            byteBuffer |= (byte)a;
+            if (offset >= 0) byteBuffer |= (byte)(tmp << offset);
+            else byteBuffer |= (byte)(tmp >> -offset);
 
             //The buffer is not full
             if(bits + bitCount < 8)
@@ -53,29 +53,30 @@ namespace CompressionLibrary.BitOperations
                 //There are some bits left (e.g. when you write to the non-empty buffer with 8 bits)
                 if (bits + prevBitCount > 8)
                 {
-                    byteBuffer = (byte)(value << (8 - prevBitCount));
-                    bitCount = prevBitCount;
+                    offset = (bits + prevBitCount) % 8;
+                    byteBuffer = (byte)(value << (8 - offset));
+                    bitCount = offset;
                 }
             }
         }
-        public void Write(byte[] buffer, int bits) {
+        public void WriteN(byte[] buffer, int bits) {
             if (bits == 0 || bits > buffer.Length * 8 ) throw new ArgumentOutOfRangeException($"Bit count cannot equal to 0 or be greater than {buffer.Length * 8} ");
             int i = 0;
             int i8() => i * 8 + 8;
             for (; i < buffer.Length && i8() <= bits; i++)
             {
-                Write(buffer[i], 8);
+                Write8(buffer[i], 8);
             }
             if(bits % 8 != 0)
             {
-                Write(buffer[i], bits % 8);
+                Write8(buffer[i], bits % 8);
             }
 
         }
-        public override void Write(byte value) => Write(value, 8);
+        public override void Write(byte value) => Write8(value, 8);
 
         #region Other
-        public override void Write(byte[] buffer) { foreach (var value in buffer) Write(value, 8); }
+        public override void Write(byte[] buffer) { foreach (var value in buffer) Write8(value, 8); }
         public override void Write(byte[] buffer, int index, int count) => Write(buffer.Skip(index).Take(count).ToArray());
 
         public override void Write(sbyte value) => Write(BitConverter.GetBytes(value));
@@ -101,9 +102,12 @@ namespace CompressionLibrary.BitOperations
         #endregion
 
         #region Longer ints
-        public void Write(short value, int bits) => Write(BitConverter.GetBytes(value), bits);
-        public void Write(int value, int bits) => Write(BitConverter.GetBytes(value), bits);
-        public void Write(long value, int bits) => Write(BitConverter.GetBytes(value), bits);
+        public void Write16(short value, int bits) => WriteN(BitConverter.GetBytes(value), bits);
+        public void Write32(int value, int bits) => WriteN(BitConverter.GetBytes(value), bits);
+        public void Write64(long value, int bits) => WriteN(BitConverter.GetBytes(value), bits);
+        public void Write16(ushort value, int bits) => WriteN(BitConverter.GetBytes(value), bits);
+        public void Write32(uint value, int bits) => WriteN(BitConverter.GetBytes(value), bits);
+        public void Write64(ulong value, int bits) => WriteN(BitConverter.GetBytes(value), bits);
 
         #endregion
 

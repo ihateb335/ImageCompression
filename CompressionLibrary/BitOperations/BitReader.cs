@@ -19,6 +19,10 @@ namespace CompressionLibrary.BitOperations
         public BitReader(Stream s, Encoding encoding) : base(s, encoding) { Encoding = encoding; }
         public BitReader(Stream s, Encoding encoding, bool leaveOpen) : base(s, encoding, leaveOpen) { LeaveOpen = leaveOpen; }
 
+
+
+        byte readedByte, result = 0;
+        int difference;
         /// <summary>
         /// Read 8 bits at max
         /// </summary>
@@ -26,9 +30,6 @@ namespace CompressionLibrary.BitOperations
         /// <returns></returns>
         public byte Read8(int bits = 8) {
             if (bits == 0 || bits > 8) throw new ArgumentOutOfRangeException("Bit count cannot equal to 0 or be greater than 8");
-
-            byte readedByte, result = 0;
-            int difference;
 
             if (bitCount < bits)
             {
@@ -39,7 +40,7 @@ namespace CompressionLibrary.BitOperations
                 {
                     result = (byte)(readedByte >> (8 - bits));
 
-                    byteBuffer = (byte)((byte)(readedByte << bits) >> bits);
+                    byteBuffer = (byte)(readedByte << bits);
                     bitCount = (8 - bits);
                 }
                 //We want to coalesce remaining buffer bits with new bits from the file
@@ -47,12 +48,13 @@ namespace CompressionLibrary.BitOperations
                 {
                     difference = bits - bitCount;
                     //Move bufferized bits to the left place in byte 
-                    result = (byte)(byteBuffer << difference);
-                    //Clean bits by shifting to the right, then coalesce
+                    result = (byte)(byteBuffer >> (8 - bits));
+                    //Clean bits by shifting to the right and to the left
+                    //Shift to the right to move the bits, then coalesce
                     result |= (byte)(readedByte >> (8 - difference));
 
                     //Clean readed bits from the buffer
-                    byteBuffer = (byte)((byte)(readedByte << difference) >> difference);
+                    byteBuffer = (byte)(readedByte << difference);
                     bitCount = 8 - difference;
                 }
             }
@@ -60,14 +62,12 @@ namespace CompressionLibrary.BitOperations
             //the number of bits less or equal to the number of bits in the buffer
             else
             {
-                difference = bitCount - bits;
-
                 //Read the bits needed
-                result = (byte)(byteBuffer >> difference);
+                result = (byte)(byteBuffer >> (8 - bits));
 
                 //Clean the buffer out of them
-                byteBuffer = (byte)((byte)(byteBuffer << (8 - difference)) >> (8 - difference));
-                bitCount = difference;
+                byteBuffer = (byte)(byteBuffer << bits);
+                bitCount = bitCount - bits;
             }
 
 
@@ -122,6 +122,21 @@ namespace CompressionLibrary.BitOperations
             if (bits > 16) throw new ArgumentOutOfRangeException("Bit count cannot be larger than 16");
 
             return BitConverter.ToInt16(ReadN(bits), 0);
+        }
+        public ulong ReadUInt64(int bits) {
+            if (bits > 64) throw new ArgumentOutOfRangeException("Bit count cannot be larger than 64");
+
+            return BitConverter.ToUInt64(ReadN(bits), 0);
+        }
+        public uint ReadUInt32(int bits) {
+            if (bits > 32) throw new ArgumentOutOfRangeException("Bit count cannot be larger than 32");
+
+            return BitConverter.ToUInt32(ReadN(bits), 0); 
+        }
+        public ushort ReadUInt16(int bits) {
+            if (bits > 16) throw new ArgumentOutOfRangeException("Bit count cannot be larger than 16");
+
+            return BitConverter.ToUInt16(ReadN(bits), 0);
         }
 
         #endregion

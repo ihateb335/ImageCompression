@@ -238,6 +238,12 @@ namespace CompressionLibraryTesting
                 return result;
             }, inputArray, outputArray, "Test bufferized read");
         }
+
+        [TestCase(9, (ushort)32837, (ushort)325)]
+        public void TestReadOutOf(int bits, ushort input, ushort actual)
+        {
+            TestRead(() => reader.ReadN(bits), BitConverter.GetBytes(input), BitConverter.GetBytes(actual), "Read 9 out of 10");
+        }
         #endregion
     }
 }

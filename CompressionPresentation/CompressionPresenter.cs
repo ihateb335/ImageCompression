@@ -46,13 +46,29 @@ namespace Lab_01
             );
             comboBox1.Items.Add(
                 new DataCompressionModel { 
-                    Compression = new LZWCompression(4093),
-                    MethodName = "LZW",
-                    Extension = ".lzw"
+                    Compression = new LZWCompression(4094, true),
+                    MethodName = "LZW 4k variable",
+                    Extension = ".lzw4kv"
                 }
             );
-           
-            comboBox1.SelectedIndex = 2;
+            comboBox1.Items.Add(
+                new DataCompressionModel { 
+                    Compression = new LZWCompression(16381, true),
+                    MethodName = "LZW 16k variable",
+                    Extension = ".lzw16kv"
+                }
+            );
+            comboBox1.Items.Add(
+                new DataCompressionModel { 
+                    Compression = new LZWCompression(4094, false),
+                    MethodName = "LZW 4k 9bit",
+                    Extension = ".lzw4k9b"
+                }
+            );
+
+
+
+            comboBox1.SelectedIndex = 3;
             ClearButton_Click(null, null);
         }
         DataCompressionModel CurrentModel => (DataCompressionModel)comboBox1.SelectedItem;

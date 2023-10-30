@@ -74,24 +74,25 @@ namespace CompressionLibraryTesting
             () =>
             {
                 TestReadInvalid(LZW_ReadDataset.Data_Invalid_1);
-            }, "Should result in an error");
+            }, "Should result in an error 1");
 
-            Assert.DoesNotThrow(
+            Assert.Throws<ArgumentException>(
             () => {
                 TestReadInvalid(LZW_ReadDataset.Data_Invalid_2);
-            }, "Shouldn't result in an error 1");
+            }, "Shouldn result in an error 2");
 
             int a = 0;
             
             Assert.DoesNotThrow(
             () => {
                 TestReadInvalid(LZW_ReadDataset.Data_Invalid_3);
-            }, "Shouldn't result in an error 2");
-            
+            }, "Shouldn't result in an error 1");
+
             //Assert.DoesNotThrow(
-            //() => {
-            //    TestInvalid(LZW_ReadDataset.Data_Invalid_4);
-            //}, "Shouldn't result in an error 3");
+            //() =>
+            //{
+            //    TestReadInvalid(LZW_ReadDataset.Data_Invalid_4);
+            //}, "Shouldn't result in an error 2");
         }
 
         [Test]

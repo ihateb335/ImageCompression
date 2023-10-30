@@ -31,7 +31,9 @@ namespace CompressionLibrary.LZW
         private void WriteToFile(ushort code)
         {
             if(EnableCompression) 
+                //bitOutputFile.WriteUInt(Convert.ToUInt32(code), Table.BitCount);
                 bitOutputFile.Write16(code, Table.BitCount );
+
             else OutputFile.Write(code);
         }
 

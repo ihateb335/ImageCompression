@@ -8,9 +8,10 @@ using System.Threading.Tasks;
 using Google.Protobuf;
 
 using CompressionLibrary.BitOperations;
-
+using BinaryBitLib;
 namespace CompressionLibrary.LZW
 {
+    using CurrentBitReader = BitReader;
     public class LZWDecompressor : DataCompressor
     {
         private ReadCodeTable Table;
@@ -23,13 +24,14 @@ namespace CompressionLibrary.LZW
 
         bool EnableCompression;
 
-        BitReader bitInputFile;
+        CurrentBitReader bitInputFile;
         BinaryReader InputFile;
         private ushort ReadUInt16()
         {
             ushort result = 0;
             if (EnableCompression)
                 result = bitInputFile.ReadUInt16(Table.BitCount);
+                //result = Convert.ToUInt16(bitInputFile.ReadUInt(Table.BitCount));
             else result = InputFile.ReadUInt16();
             return result;
         }
@@ -38,7 +40,7 @@ namespace CompressionLibrary.LZW
         protected override void Algorithm(Stream InputFile, Stream OutputFile)
         {
             this.InputFile = new BinaryReader(InputFile);
-            bitInputFile = new BitReader(InputFile);
+            bitInputFile = new CurrentBitReader(InputFile);
 
             var Output = new BinaryWriter(OutputFile);
 

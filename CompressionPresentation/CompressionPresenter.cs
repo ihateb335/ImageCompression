@@ -68,7 +68,7 @@ namespace Lab_01
 
 
 
-            comboBox1.SelectedIndex = 3;
+            comboBox1.SelectedIndex = 2;
             ClearButton_Click(null, null);
         }
         DataCompressionModel CurrentModel => (DataCompressionModel)comboBox1.SelectedItem;
@@ -82,6 +82,12 @@ namespace Lab_01
         private string ShortFileName => ShortFileNameOf(InputFile);
         private string ShortFileNameOf(string file) => file.Substring(InputFile.LastIndexOf('\\') + 1);
 
+        private void Log(string log)
+        {
+            textBox1.Text += log;
+            GoDown_Click(null, null);
+        }
+
         private void Compress_Click(object sender, EventArgs e)
         {
             var dialog = new SaveFileDialog(); 
@@ -89,14 +95,14 @@ namespace Lab_01
             if (dialog.ShowDialog() == DialogResult.OK)
             {
                 Compression.Compress(InputFile, dialog.FileName);
-                textBox1.Text += $@"
+                Log($@"
 Filename = {ShortFileName}
 Compressing to = {ShortFileNameOf(dialog.FileName)}
 Initial (bytes) = {Compression.Compressor.InitialSize}
 Output (bytes) = {Compression.Compressor.ResultedSize}
 Compression coefficient = {Compression.Compressor.CompressionCoefficient,2:F4}
 Compression time = {Compression.Compressor.CompressionDuration.ToString()}
-============================";
+============================");
             }
         }
 
@@ -115,14 +121,14 @@ Compression time = {Compression.Compressor.CompressionDuration.ToString()}
                     return;
                 }
                 Compression.Decompress(InputFile, dialog.FileName);
-                textBox1.Text += $@"
+                Log($@"
 Filename = {ShortFileName}
 Decompressing to = {ShortFileNameOf(dialog.FileName)}
 Initial (bytes) = {Compression.Decompressor.InitialSize}
 Output (bytes) = {Compression.Decompressor.ResultedSize}
 Decompression coefficient = {Compression.Decompressor.CompressionCoefficient,2:F4}
 Decompression time = {Compression.Decompressor.CompressionDuration.ToString()}
-============================";
+============================");
                 Graphics.Clear(BackColor);
                 if (Bitmap != null)
                 {
@@ -170,11 +176,11 @@ Decompression time = {Compression.Decompressor.CompressionDuration.ToString()}
                     Compress.Enabled = true;
                     Decompress.Enabled = false;
                 }
-                textBox1.Text += 
+                Log(
 $@"
 File {ShortFileName} opened
 ============================
-";
+");
             }
         }
 
@@ -185,11 +191,11 @@ File {ShortFileName} opened
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            textBox1.Text +=
+            Log(
 $@"
 Method changed to {CurrentModel.MethodName}
 ============================
-";
+");
         }
 
         private void ClearButton_Click(object sender, EventArgs e)

@@ -11,9 +11,11 @@ Contains of:
   * [RLEICompressor](CompressionLibrary/RLEI/RLEICompressor.cs) - class for RLE improved compression;
   * [RLEIDecompressor](CompressionLibrary/RLEI/RLEIDecompressor.cs) - class for RLE improved decompression;
   ---
-  * [RLEICompressor](CompressionLibrary/LZW/LZWCompressor.cs) - class for LZW compression [Beware of low performance];
-  * [RLEIDecompressor](CompressionLibrary/LZW/LZWDecompressor.cs) - class for LZW decompression [Beware of low performance];
+  * [LZWCompressor](CompressionLibrary/LZW/LZWCompressor.cs) - class for LZW compression [Beware of low performance];
+  * [LZWDecompressor](CompressionLibrary/LZW/LZWDecompressor.cs) - class for LZW decompression [Beware of low performance];
   ---
+  * [HuffmanCompressor](CompressionLibrary/Huffman/HuffmanCompressor.cs) - class for Huffman compression [Beware of low performance];
+  * [HuffmanDecompressor](CompressionLibrary/Huffman/HuffmanDecompressor.cs) - class for Huffman decompression [Beware of low performance];
   ---
   * [BitReader](CompressionLibrary/BitOperations/BitReader.cs) - class to read bits of data;
   * [BitWriter](CompressionLibrary/BitOperations/BitWriter.cs) - class to write bits of data;
@@ -29,6 +31,8 @@ Contains of:
   * [RLEI](CompressionLibraryTesting/RLEITests.cs) - tests for RLE improved algorithm;
   * [LZW](CompressionLibraryTesting/LZWTests.cs) - tests for basic LZW algorithm;
   * [LZWI](CompressionLibraryTesting/LZWITests.cs) - tests for LZW improved algorithm;
+  * [HuffmanIntegration](CompressionLibraryTesting/HuffmanCompressionTests.cs) - Huffman integration tests;
+  * [Huffman](CompressionLibraryTesting/HuffmanTests.cs) - tests for Huffman;
   ---
   * [BitReaderTests](CompressionLibraryTesting/BitReaderTests.cs) - tests for bit reader;
   * [BitWriterTests](CompressionLibraryTesting/BitWriterTests.cs) - tests for bit writer;

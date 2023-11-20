@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
 
-using CompressionLibrary;
+using CompressionLibrary.Huffman;
 using CompressionLibrary.BitOperations;
 using System.Diagnostics;
 
@@ -60,14 +60,33 @@ namespace CompressionLibraryTesting
 
             Thread.Sleep(8000);
         }
+
+
         static void Main(string[] args)
         {
-            using (var sr = new BinaryReader(File.OpenRead(@"C:\Users\MrZahn\source\repos\University\Laboratory\5 курс\1 семестр\ImageCompressionData\Lab_01\Tests\Stripes-small.lzw")))
+            var bytes = new byte[10].Select(i => (byte)0).Concat(
+                new byte[5].Select(i => (byte)1)
+                ).Concat(
+                 new byte[8].Select(i => (byte)2)
+                ).Concat(
+                 new byte[13].Select(i => (byte)3)
+                ).Concat(
+                 new byte[10].Select(i => (byte)4)
+                )
+                .ToArray();
+            using (var sr = new MemoryStream(bytes))
             {
-                while (sr.BaseStream.Position != sr.BaseStream.Length)
+                var a = new HuffmanTree(sr);
+
+                foreach (var item in new byte[] {0, 1, 2, 3, 4})
                 {
-                    Console.Write($"{sr.ReadUInt16()} ");
+                   var code = a.GetCode(item);
+                    Console.WriteLine($"Code: {Convert.ToInt32(code,2)}, bits = {code.Length}");
                 }
+
+                var b = new MemoryStream();
+
+                a.WriteTree(b);
             }
 
 

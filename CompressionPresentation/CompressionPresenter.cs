@@ -13,6 +13,7 @@ using CompressionLibrary;
 using CompressionLibrary.RLE;
 using CompressionLibrary.RLEI;
 using CompressionLibrary.LZW;
+using CompressionLibrary.Huffman;
 
 namespace Lab_01
 {
@@ -65,10 +66,17 @@ namespace Lab_01
                     Extension = ".lzw4k9b"
                 }
             );
+            comboBox1.Items.Add(
+                new DataCompressionModel { 
+                    Compression = new HuffmanCompression(),
+                    MethodName = "Huffman",
+                    Extension = ".huff"
+                }
+            );
 
 
 
-            comboBox1.SelectedIndex = 2;
+            comboBox1.SelectedIndex = 5;
             ClearButton_Click(null, null);
         }
         DataCompressionModel CurrentModel => (DataCompressionModel)comboBox1.SelectedItem;

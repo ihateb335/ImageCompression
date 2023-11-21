@@ -109,7 +109,7 @@ Compressing to = {ShortFileNameOf(dialog.FileName)}
 Initial (bytes) = {Compression.Compressor.InitialSize}
 Output (bytes) = {Compression.Compressor.ResultedSize}
 Compression coefficient = {Compression.Compressor.CompressionCoefficient,2:F4}
-Compression time = {Compression.Compressor.CompressionDuration.ToString()}
+Compression time = {Compression.Compressor.CompressionDuration.ToString()} ({Math.Round(Compression.Compressor.CompressionDuration.TotalMilliseconds)})
 ============================");
             }
         }
@@ -135,7 +135,7 @@ Decompressing to = {ShortFileNameOf(dialog.FileName)}
 Initial (bytes) = {Compression.Decompressor.InitialSize}
 Output (bytes) = {Compression.Decompressor.ResultedSize}
 Decompression coefficient = {Compression.Decompressor.CompressionCoefficient,2:F4}
-Decompression time = {Compression.Decompressor.CompressionDuration.ToString()}
+Decompression time = {Compression.Decompressor.CompressionDuration.ToString()} ({Math.Round(Compression.Decompressor.CompressionDuration.TotalMilliseconds)})
 ============================");
                 Graphics.Clear(BackColor);
                 if (Bitmap != null)

@@ -56,7 +56,9 @@ namespace CompressionLibrary.Huffman
             var reader = new BinaryReader(InputFileStream);
             CodeCount = reader.ReadInt64();
 
-            var toRead = reader.ReadByte();
+            if (CodeCount == 0) return Enumerable.Empty<HuffmanNodeData>();
+
+            var toRead = reader.ReadByte() + 1;
             var nodes = new HuffmanNodeData[toRead];
             for (int i = 0; i < toRead; i++)
             {
@@ -110,7 +112,7 @@ namespace CompressionLibrary.Huffman
         {
             var writer = new BinaryWriter(output);
             writer.Write(InputFileStream.Length);
-            writer.Write((byte)AvailableNodes.Count());
+            writer.Write((byte)(AvailableNodes.Count() - 1));
             foreach (var item in AvailableNodes)
             {
                 writer.Write(item.Byte);
